@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_sources:selectedActivity=new SourceActivity();
                 break;
             }
-            Intent intent =new Intent(MainActivity.this,selectedActivity.getClass());
+            Intent intent =new Intent(MainActivity.this,SourceActivity.class);
             startActivity(intent);
             return true;
         }

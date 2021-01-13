@@ -9,7 +9,7 @@
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
     app:contentPadding="2dp">
-
+<!--todo fix the lint issues-->
 
     <RelativeLayout
         android:layout_width="match_parent"

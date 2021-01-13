@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Newz</string>
+    <string name="date_and_time">Date and Time</string>
 </resources>

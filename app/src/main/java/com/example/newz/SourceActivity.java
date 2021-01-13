@@ -29,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SourceActivity extends AppCompatActivity {
-
+    //todo convert this to fragment
 
     private RecyclerView recyclerView;
 

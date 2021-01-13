@@ -46,12 +46,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-
+    //todo remove the extra lines and spaces from code base, make code clean
     private RecyclerView recyclerView;
     private Activity selectedActivity;
 
     private ArrayList<SourceParent> sourceParentArrayList;
-
+    //todo implement bottom navigation with right way, refer some blogs
 
 
     NewsApi newsApi;

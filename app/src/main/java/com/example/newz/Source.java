@@ -42,6 +42,10 @@ public class Source {
         return sourceImageParse;
     }
 
+    public void setSourceImageParse(@Nullable SourceImageParse sourceImageParse) {
+        this.sourceImageParse = sourceImageParse;
+    }
+
     @Nullable
     public String getId() {
         return id;

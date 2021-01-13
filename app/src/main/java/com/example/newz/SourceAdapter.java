@@ -112,6 +112,12 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
 
     }
 
+    void addTheImageAtPosition(Bitmap bitmap,int index){
+        sourceItems.get(index).setSourceImageParse(new SourceImageParse(bitmap));
+        notifyItemChanged(index);
+    }
+
+
     @Override
     public int getItemCount() {
         return sourceItems.size();

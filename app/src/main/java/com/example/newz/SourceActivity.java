@@ -29,11 +29,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SourceActivity extends AppCompatActivity {
-
+    //todo convert this to fragment
 
     private RecyclerView recyclerView;
 
-    private ArrayList<Bitmap> sourceBitmap;
+    private ArrayList<Bitmap> sourceBitmap= new ArrayList<>();
 
     Bitmap bmp;
 
@@ -108,6 +108,7 @@ public class SourceActivity extends AppCompatActivity {
 //
 //                }
 
+                int index=0;
                 for (Source source : sourceArrayList) {
                     String name = source.getName();
                     String country = source.getCountry();
@@ -115,13 +116,8 @@ public class SourceActivity extends AppCompatActivity {
                     String language = source.getLanguage();
                     String webUrl = source.getUrl();
 
-                    Bitmap bitmap = getImage(webUrl);
-
-                    Log.d("bitmap", "onResponse: " + bitmap.toString());
-                    sourceBitmap.add(bitmap);
-
-                    Log.d("source bitmap", "onResponse: " + sourceBitmap);
-
+                    getImage(webUrl,index);
+                    index++;
                 }
 
 
@@ -142,7 +138,7 @@ public class SourceActivity extends AppCompatActivity {
 
     }
 
-    private Bitmap getImage(String webUrl) {
+    private Bitmap getImage(String webUrl,int itemIndex) {
 
 
         Log.d("inside bitmap", "getImageFile: " + webUrl);
@@ -155,7 +151,11 @@ public class SourceActivity extends AppCompatActivity {
                     Log.d("not Success", "onResponse: " + response.code());
                 }
                 bmp= BitmapFactory.decodeStream(response.body().byteStream());
+                Log.d("bitmap", "onResponse: " + bmp.toString());
+                sourceBitmap.add(bmp);
+                sourceAdapter.addTheImageAtPosition(bmp,itemIndex);
 
+                Log.d("source bitmap", "onResponse: " + sourceBitmap);
 
             }
 

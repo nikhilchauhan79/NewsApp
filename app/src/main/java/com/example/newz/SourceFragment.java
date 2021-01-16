@@ -5,9 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,8 +20,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -28,8 +30,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class SourceActivity extends AppCompatActivity {
-    //todo convert this to fragment
+public class SourceFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
@@ -45,15 +46,24 @@ public class SourceActivity extends AppCompatActivity {
 
     private ArrayList<Bitmap> arrayList;
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view=inflater.inflate(R.layout.sources_main, container, false);
+        recyclerView=view.findViewById(R.id.recycler_view_sources);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        return view;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sources_main);
-
-        Intent intent = getIntent();
-
-        recyclerView = findViewById(R.id.recycler_view_sources);
 
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -75,11 +85,8 @@ public class SourceActivity extends AppCompatActivity {
 
         newsApi = retrofit.create(NewsApi.class);
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         getSources();
-
     }
 
     private void getSources() {
@@ -121,7 +128,7 @@ public class SourceActivity extends AppCompatActivity {
                 }
 
 
-                sourceAdapter = new SourceAdapter(SourceActivity.this, sourceArrayList, sourceBitmap);
+                sourceAdapter = new SourceAdapter(getContext(), sourceArrayList, sourceBitmap);
                 recyclerView.setAdapter(sourceAdapter);
 
                 Log.d("TAG", "onResponse: " + parentItem.getStatus());
@@ -169,6 +176,5 @@ public class SourceActivity extends AppCompatActivity {
         return bmp;
 
     }
-
 
 }

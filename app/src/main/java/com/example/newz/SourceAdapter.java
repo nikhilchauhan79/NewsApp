@@ -138,7 +138,6 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
             super(itemView);
 
 
-            navigationView=itemView.findViewById(R.id.bottom_navigation_2);
             name=itemView.findViewById(R.id.name);
             imageViewSource=itemView.findViewById(R.id.image_view_source);
             description=itemView.findViewById(R.id.text_view_description);

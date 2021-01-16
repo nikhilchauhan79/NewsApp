@@ -46,118 +46,47 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    //todo remove the extra lines and spaces from code base, make code clean
-    private RecyclerView recyclerView;
-    private Activity selectedActivity;
-    private ArrayList<SourceParent> sourceParentArrayList;
-    //todo implement bottom navigation with right way, refer some blogs
-
-
-    NewsApi newsApi;
-
-
-    private ExampleAdapter exampleAdapter;
-    private BottomNavigationView navigationView;
-
-    private ArrayList<Articles> articlesArrayList;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.recycler_view);
-        navigationView=findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
 
-        navigationView.setOnNavigationItemSelectedListener(navListener);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://newsapi.org/v2/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
 
 
-
-        newsApi = retrofit.create(NewsApi.class);
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        articlesArrayList = new ArrayList<>();
-        sourceParentArrayList=new ArrayList<>();
-
-        getArticles();
 
     }
-    BottomNavigationView.OnNavigationItemSelectedListener navListener=new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            selectedActivity=null;
+            Fragment selectedFragment = new HomeFragment();
 
-            switch (item.getItemId()){
-                case R.id.nav_sources:selectedActivity=new SourceActivity();
-                break;
+            switch (item.getItemId()) {
+                case R.id.nav_sources:
+                    selectedFragment = new SourceFragment();
+                    break;
+
+                case R.id.nav_home:
+                    selectedFragment=new HomeFragment();
+                    break;
+
+                case R.id.offline_items:
+                    selectedFragment=new OfflineFragment();
+                    break;
+
             }
-            Intent intent =new Intent(MainActivity.this,SourceActivity.class);
-            startActivity(intent);
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
             return true;
         }
     };
-
-    private void getArticles() {
-
-
-        Map<String, String> parameters=new HashMap<>();
-
-        parameters.put("country","us");
-        parameters.put("apiKey","51489d0921204a4897faf023a056a1b1");
-
-        Call<Parent> call=newsApi.getNewsArticles(parameters);
-
-        call.enqueue(new Callback<Parent>() {
-            @Override
-            public void onResponse(Call<Parent> call, Response<Parent> response) {
-                    if (!response.isSuccessful()) {
-                        Log.d("TAG", "onResponse:"+"code: " + response.code());
-                        return;
-                    }
-
-                Parent parentItem=response.body();
-
-                ArrayList<Articles> parentArrayList=parentItem.getArticles();
-
-                for(Articles article:parentArrayList){
-                    String author=article.getAuthor();
-                    String title=article.getTitle();
-                    String publishedAt=article.getPublishedAt();
-                    String urlToImagearticle=article.getUrlToImage();
-                    Source source=article.getSource();
-                    String description=article.getDescription();
-                    String webUrl=article.getUrl();
-
-                }
-
-                exampleAdapter=new ExampleAdapter(MainActivity.this,parentArrayList);
-                recyclerView.setAdapter(exampleAdapter);
-                Log.d("TAG", "onResponse: "+parentItem.getStatus());
-                Log.d("TAG", "onResponse: "+parentArrayList);
-
-            }
-
-            @Override
-            public void onFailure(Call<Parent> call, Throwable t) {
-                Log.d("TAG", "onFailure: "+t.getMessage());
-            }
-        });
-
-
-
-    }
-
-
 
 
 }

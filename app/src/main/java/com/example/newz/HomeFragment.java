@@ -1,6 +1,7 @@
 package com.example.newz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +12,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,9 +51,11 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.home_fragment, container, false);
-        recyclerView=view.findViewById(R.id.recycler_view_home);
+        View view = inflater.inflate(R.layout.home_fragment, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view_home);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
 
@@ -72,12 +77,11 @@ public class HomeFragment extends Fragment {
                 .build();
 
 
-
         newsApi = retrofit.create(NewsApi.class);
 
 
         articlesArrayList = new ArrayList<>();
-        sourceParentArrayList=new ArrayList<>();
+        sourceParentArrayList = new ArrayList<>();
 
         getArticles();
 
@@ -85,56 +89,81 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     private void getArticles() {
 
 
-        Map<String, String> parameters=new HashMap<>();
+        Map<String, String> parameters = new HashMap<>();
 
-        parameters.put("country","us");
-        parameters.put("apiKey","51489d0921204a4897faf023a056a1b1");
+        parameters.put("country", "us");
+        parameters.put("apiKey", "51489d0921204a4897faf023a056a1b1");
 
-        Call<Parent> call=newsApi.getNewsArticles(parameters);
+        Call<Parent> call = newsApi.getNewsArticles(parameters);
 
         call.enqueue(new Callback<Parent>() {
             @Override
             public void onResponse(Call<Parent> call, Response<Parent> response) {
                 if (!response.isSuccessful()) {
-                    Log.d("TAG", "onResponse:"+"code: " + response.code());
+                    Log.d("TAG", "onResponse:" + "code: " + response.code());
                     return;
                 }
 
-                Parent parentItem=response.body();
+                Parent parentItem = response.body();
 
-                ArrayList<Articles> parentArrayList=parentItem.getArticles();
+                articlesArrayList= parentItem.getArticles();
 
-                for(Articles article:parentArrayList){
-                    String author=article.getAuthor();
-                    String title=article.getTitle();
-                    String publishedAt=article.getPublishedAt();
-                    String urlToImagearticle=article.getUrlToImage();
-                    Source source=article.getSource();
-                    String description=article.getDescription();
-                    String webUrl=article.getUrl();
-
-                }
-
-                exampleAdapter=new ExampleAdapter(getContext(),parentArrayList);
+                exampleAdapter = new ExampleAdapter(getContext(), articlesArrayList);
                 recyclerView.setAdapter(exampleAdapter);
-                Log.d("TAG", "onResponse: "+parentItem.getStatus());
-                Log.d("TAG", "onResponse: "+parentArrayList);
+                exampleAdapter.notifyDataSetChanged();
+                initListener();
+
+
+
 
             }
 
             @Override
             public void onFailure(Call<Parent> call, Throwable t) {
-                Log.d("TAG", "onFailure: "+t.getMessage());
+                Log.d("TAG", "onFailure: " + t.getMessage());
             }
         });
 
 
-
     }
 
+    private void initListener(){
+
+        exampleAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                String urlToarticle;
+                String title;
+                String imageUrl;
+                String publishedAt;
+                String author;
+                String description;
+                String date;
+                String content;
+                String articleUrl;
+                Articles currentArticles=articlesArrayList.get(position);
+                description=currentArticles.getDescription();
+                date=currentArticles.getPublishedAt();
+                author=currentArticles.getAuthor();
+                title=currentArticles.getTitle();
+                content=currentArticles.getContent();
+                imageUrl=currentArticles.getUrlToImage();
+                articleUrl=currentArticles.getUrl();
+
+                Intent intent=new Intent(getContext(),NewsDetailActivity.class);
+                intent.putExtra("url", articleUrl);
+                intent.putExtra("title",title );
+                intent.putExtra("img",imageUrl  );
+                intent.putExtra("date", date);
+                intent.putExtra("author",  author);
+                startActivity(intent);
+            }
+        });
+
+    }
 
 }

@@ -2,11 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/darker_gray"
-        android:id="@+id/recycler_view_home"></androidx.recyclerview.widget.RecyclerView>
+        android:id="@+id/recycler_view_home"/>
+
+
+</androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>

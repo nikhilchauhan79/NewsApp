@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -27,13 +28,16 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     private ArrayList<Articles> newsItems;
     Intent intent;
     Activity selectedActivity;
+    private OnItemClickListener onItemClickListener;
+
+
 
 
     @NonNull
     @Override
     public ExampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.news_card_activity,parent,false);
-        return new ExampleViewHolder(view);
+        return new ExampleViewHolder(view, onItemClickListener);
     }
 
     public ExampleAdapter(Context context, ArrayList<Articles> exampleItems) {
@@ -44,6 +48,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
 
     @Override
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
+
         Articles currentArticles=newsItems.get(position);
 
         String description=currentArticles.getDescription();
@@ -75,7 +80,17 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         return newsItems.size();
     }
 
-    public class ExampleViewHolder extends RecyclerView.ViewHolder{
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener= onItemClickListener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(View view, int position);
+    }
+
+    public static class ExampleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+
         public TextView title;
         public TextView description;
         public TextView source;
@@ -85,19 +100,20 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         public BottomNavigationView navigationView;
 
         public TextView content;
+        OnItemClickListener onItemClickListener;
 
         public TextView dateAndTime;
 
-        public ExampleViewHolder(View itemView){
+        public ExampleViewHolder(View itemView, OnItemClickListener onItemClickListener){
             super(itemView);
             title=itemView.findViewById(R.id.text_view_title);
             description=itemView.findViewById(R.id.text_view_description);
             source=itemView.findViewById(R.id.text_view_source_name);
             dateAndTime=itemView.findViewById(R.id.text_view_date);
             author=itemView.findViewById(R.id.text_view_author);
-
+            itemView.setOnClickListener(this);
             content=itemView.findViewById(R.id.text_view_content);
-
+            this.onItemClickListener=onItemClickListener;
             navigationView=itemView.findViewById(R.id.bottom_navigation);
 
             imageView=itemView.findViewById(R.id.image_view);
@@ -106,7 +122,14 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
 
 
 
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(v,getAdapterPosition());
+        }
     }
+
+
+
 
 
 }

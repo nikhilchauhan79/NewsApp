@@ -74,8 +74,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
         holder.title.setText(currentArticles.getTitle());
         holder.desc.setText(currentArticles.getDescription());
-
         Source source=currentArticles.getSource();
+        holder.time.setText(" \u2022 " + Utils.DateFormat(currentArticles.getPublishedAt()));
+
         holder.source.setText(source.getName());
         if(holder.publishedAt!=null) {
             holder.publishedAt.setText(" \u2022 " + Utils.DateToTimeFormat(currentArticles.getPublishedAt()));

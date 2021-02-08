@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
+    android:layout_height="400dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="8dp"
@@ -108,8 +108,8 @@
             />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:id="@+id/desc"
             android:maxLines="4"
             android:textSize="15sp"
@@ -127,8 +127,7 @@
             android:id="@+id/source"
             android:fontFamily="@font/noto_sans_bold"
             android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="16dp"
             android:textColor="@color/colorTextTitle"
             android:maxLines="1"
@@ -140,18 +139,18 @@
             />
 
         <TextView
+            android:id="@id/time"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:id="@id/time"
-            android:fontFamily="@font/noto_sans_bold"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_alignRight="@id/source"
             android:layout_below="@id/desc"
-            android:maxLines="1"
+            android:text="time"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="5dp"
             android:drawablePadding="10dp"
-            android:singleLine="true"
             android:ellipsize="end"
-            />
+            android:fontFamily="@font/noto_sans_bold"
+            android:maxLines="1"
+            android:singleLine="true"
+             />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

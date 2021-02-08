@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -134,10 +135,18 @@ private ArrayList<Source> sourceArrayList;
                 }
 
 
-                sourceAdapter = new SourceAdapter(getContext(), sourceArrayList, sourceBitmap);
+                sourceAdapter = new SourceAdapter(getContext(), sourceArrayList, sourceBitmap, new SourceAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Source source) {
+                        String sourceUrl=source.getUrl();
+
+                        Intent i = new Intent(getContext(), WebViewActivity.class);
+                        i.putExtra("url",sourceUrl);
+                        startActivity(i);
+                    }
+                });
                 recyclerView.setAdapter(sourceAdapter);
                 sourceAdapter.notifyDataSetChanged();
-                sourceInitListener();
 
 
                 Log.d("TAG", "onResponse: " + parentItem.getStatus());
@@ -154,21 +163,6 @@ private ArrayList<Source> sourceArrayList;
 
     }
 
-    private void sourceInitListener(){
-        sourceAdapter.setOnItemClickListener(new SourceAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Source currentSource=sourceArrayList.get(position);
-                String sourceUrl=currentSource.getUrl();
-
-                Intent i = new Intent(getContext(), WebViewActivity.class);
-                i.putExtra("url",sourceUrl);
-                startActivity(i);
-// Insert the fragment by replacing any existing fragment
-
-            }
-        });
-    }
 
     private void gotoUrl(String sourceUrl){
 

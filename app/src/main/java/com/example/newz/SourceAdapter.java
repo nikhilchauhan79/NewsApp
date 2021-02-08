@@ -50,10 +50,11 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
     int index=0;
     private ArrayList<Bitmap> bitmapArrayList;
 
-    public SourceAdapter(Context context, ArrayList<Source> sourceItems, ArrayList<Bitmap> bitmapArrayList) {
+    public SourceAdapter(Context context, ArrayList<Source> sourceItems, ArrayList<Bitmap> bitmapArrayList,OnItemClickListener onItemClickListener) {
         this.context = context;
         this.sourceItems = sourceItems;
         this.bitmapArrayList = bitmapArrayList;
+        this.onItemClickListener=onItemClickListener;
     }
 
     @NonNull
@@ -80,7 +81,6 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
     public void onBindViewHolder(@NonNull ExampleViewHolder holders, int position) {
 
         final ExampleViewHolder holder=holders;
-
         Source currentSource=sourceItems.get(position);
         String description=currentSource.getDescription();
         String country=currentSource.getCountry();
@@ -109,6 +109,7 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
 //            holder.imageViewSource.setImageBitmap(imageFile);
 //
 //        }
+        holder.bind(currentSource,onItemClickListener);
         holder.sourceDesc.setText(description);
         holder.sourceLanguage.setText(language);
         holder.sourceCategory.setText(currentSource.getCategory());
@@ -116,7 +117,9 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
         holder.sourceName.setText(name);
 
 
+
     }
+
 
     void addTheImageAtPosition(Bitmap bitmap,int index){
         sourceItems.get(index).setSourceImageParse(new SourceImageParse(bitmap));
@@ -129,7 +132,7 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
         return sourceItems.size();
     }
 
-    public class ExampleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ExampleViewHolder extends RecyclerView.ViewHolder {
         public TextView sourceName,sourceLanguage,sourceCategory;
         public TextView sourceDesc;
         public TextView sourceCountry;
@@ -150,19 +153,21 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
             this.onItemClickListener=onItemClickListener;
 
         }
-
-
-        @Override
-        public void onClick(View v) {
-            onItemClickListener.onItemClick(v,getAdapterPosition());
-
+        public void bind(final Source item, final OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(item);
+                }
+            });
         }
+
+
     }
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener=onItemClickListener;
     }
     public interface OnItemClickListener{
-        void onItemClick(View view,int position);
+        void onItemClick(Source source);
     }
 
 //   private Bitmap getImageFile(String webUrl){

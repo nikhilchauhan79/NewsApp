@@ -44,10 +44,10 @@ public class NewsDetailActivity extends AppCompatActivity implements AppBarLayou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
 
-//        toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar = findViewById(R.id.toolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().hide();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("");
@@ -71,8 +71,8 @@ public class NewsDetailActivity extends AppCompatActivity implements AppBarLayou
         mSource = intent.getStringExtra("source");
         mAuthor = intent.getStringExtra("author");
 
-        //RequestOptions requestOptions = new RequestOptions();
-        //requestOptions.error(Utils.getRandomDrawbleColor());
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.error(Utils.getRandomDrawbleColor());
 
         Glide.with(this)
                 .load(mImg)
@@ -81,7 +81,7 @@ public class NewsDetailActivity extends AppCompatActivity implements AppBarLayou
 
         appbar_title.setText(mSource);
         appbar_subtitle.setText(mUrl);
-        //date.setText(Utils.DateFormat(mDate));
+        date.setText(Utils.DateFormat(mDate));
         title.setText(mTitle);
 
         String author;
@@ -91,7 +91,7 @@ public class NewsDetailActivity extends AppCompatActivity implements AppBarLayou
             author = "";
         }
 
-        //time.setText(mSource + author + " \u2022 " + Utils.DateToTimeFormat(mDate));
+        time.setText(mSource + author + " \u2022 " + Utils.DateToTimeFormat(mDate));
 
         initWebView(mUrl);
 

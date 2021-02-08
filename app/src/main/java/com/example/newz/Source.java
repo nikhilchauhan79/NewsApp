@@ -17,6 +17,8 @@ public class Source {
     @Nullable
     private String url;
 
+    @Nullable
+    private String category;
 
     @Nullable
     private SourceImageParse sourceImageParse;
@@ -27,11 +29,12 @@ public class Source {
     @Nullable
     private String language;
 
-    public Source(@Nullable String id, @Nullable String name, @Nullable String description, @Nullable String url, @Nullable SourceImageParse sourceImageParse, @Nullable String country, @Nullable String language) {
+    public Source(@Nullable String id, @Nullable String name, @Nullable String description, @Nullable String url, @Nullable String category, @Nullable SourceImageParse sourceImageParse, @Nullable String country, @Nullable String language) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.url = url;
+        this.category = category;
         this.sourceImageParse = sourceImageParse;
         this.country = country;
         this.language = language;
@@ -49,6 +52,11 @@ public class Source {
     @Nullable
     public String getId() {
         return id;
+    }
+
+    @Nullable
+    public String getCategory() {
+        return category;
     }
 
     @Nullable

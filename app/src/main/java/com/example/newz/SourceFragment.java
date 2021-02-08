@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,7 +45,7 @@ public class SourceFragment extends Fragment {
     ArrayList<Bitmap> object;
 
     private SourceAdapter sourceAdapter;
-
+private ArrayList<Source> sourceArrayList;
     private ArrayList<Bitmap> arrayList;
 
     @Nullable
@@ -52,7 +54,11 @@ public class SourceFragment extends Fragment {
         View view=inflater.inflate(R.layout.sources_main, container, false);
         recyclerView=view.findViewById(R.id.recycler_view_sources);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
         return view;
     }
 
@@ -84,7 +90,7 @@ public class SourceFragment extends Fragment {
         newsApi2 = retrofit_g_api.create(NewsApi.class);
 
         newsApi = retrofit.create(NewsApi.class);
-
+        sourceArrayList=new ArrayList<>();
 
         getSources();
     }
@@ -107,7 +113,7 @@ public class SourceFragment extends Fragment {
 
                 SourceParent parentItem = response.body();
 
-                ArrayList<Source> sourceArrayList = parentItem.getSources();
+                sourceArrayList = parentItem.getSources();
 
 //                SourceImageParse sourceImageParse=parentItem.getSourceImageParse();
 //                if(sourceImageParse!=null) {
@@ -130,6 +136,9 @@ public class SourceFragment extends Fragment {
 
                 sourceAdapter = new SourceAdapter(getContext(), sourceArrayList, sourceBitmap);
                 recyclerView.setAdapter(sourceAdapter);
+                sourceAdapter.notifyDataSetChanged();
+                sourceInitListener();
+
 
                 Log.d("TAG", "onResponse: " + parentItem.getStatus());
                 Log.d("TAG", "onResponse: " + sourceArrayList);
@@ -145,6 +154,25 @@ public class SourceFragment extends Fragment {
 
     }
 
+    private void sourceInitListener(){
+        sourceAdapter.setOnItemClickListener(new SourceAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Source currentSource=sourceArrayList.get(position);
+                String sourceUrl=currentSource.getUrl();
+
+                Intent i = new Intent(getContext(), WebViewActivity.class);
+                i.putExtra("url",sourceUrl);
+                startActivity(i);
+// Insert the fragment by replacing any existing fragment
+
+            }
+        });
+    }
+
+    private void gotoUrl(String sourceUrl){
+
+    }
     private Bitmap getImage(String webUrl,int itemIndex) {
 
 
@@ -176,5 +204,6 @@ public class SourceFragment extends Fragment {
         return bmp;
 
     }
+
 
 }

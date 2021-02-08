@@ -5,60 +5,138 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="2dp"
-    app:cardUseCompatPadding="true"
+    android:clickable="true"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="7dp"
+    android:layout_marginBottom="7dp"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    app:cardCornerRadius="10dp"
     app:contentPadding="2dp">
 
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/image_view_source"-->
+<!--            android:layout_width="89dp"-->
+<!--            android:layout_height="61dp"></ImageView>-->
+<!--        <TextView-->
+<!--            android:id="@+id/name"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_toRightOf="@id/image_view_source"-->
+<!--            android:text="Name"></TextView>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/text_view_description"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_toRightOf="@id/image_view_source"-->
+<!--            android:layout_below="@id/name"-->
+<!--            android:text="Description"></TextView>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_toRightOf="@id/image_view_source"-->
+
+<!--            android:layout_below="@id/text_view_description"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/text_view_country"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Country"></TextView>-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/text_view_language"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Language"></TextView>-->
+
+<!--        </LinearLayout>-->
+
+
+<!--    </RelativeLayout>-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/image_view_source"
-            android:layout_width="89dp"
-            android:layout_height="61dp"></ImageView>
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/image_view_source"
-            android:text="Name"></TextView>
+            android:id="@+id/source_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:transitionName="img" />
+
 
         <TextView
-            android:id="@+id/text_view_description"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/image_view_source"
-            android:layout_below="@id/name"
-            android:text="Description"></TextView>
+            android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/colorTextTitle"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/source_img"
+            android:id="@+id/source_name"
+            android:textSize="20sp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="source name"
+            />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/image_view_source"
+            android:text="country"
+            android:fontFamily="@font/noto_sans_bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+            android:id="@+id/source_country"
+            android:layout_toRightOf="@id/source_name"/>
 
-            android:layout_below="@id/text_view_description"
-            android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/source_category"
+            android:text="category"
+            android:textSize="15sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_below="@id/source_name"
+            android:layout_toRightOf="@id/source_img"/>
 
-            <TextView
-                android:id="@+id/text_view_country"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Country"></TextView>
 
-
-            <TextView
-                android:id="@+id/text_view_language"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Language"></TextView>
-
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/source_language"
+            android:text="language"
+            android:layout_marginTop="16dp"
+            android:textSize="15sp"
+            android:layout_marginLeft="32dp"
+            android:layout_toRightOf="@id/source_category"
+            android:layout_below="@id/source_name"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/source_desc"
+            android:fontFamily="@font/open_sans"
+            android:layout_below="@id/source_img"
+            android:textSize="15sp"
+            android:maxLines="4"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="source Desc"
+            />
 
 
     </RelativeLayout>

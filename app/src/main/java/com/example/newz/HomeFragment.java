@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
 
     //todo add viewmodel
 
-    private ExampleAdapter exampleAdapter;
+    private Adapter exampleAdapter;
     private BottomNavigationView navigationView;
 
     private ArrayList<Articles> articlesArrayList;
@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment {
 
                 articlesArrayList= parentItem.getArticles();
 
-                exampleAdapter = new ExampleAdapter(getContext(), articlesArrayList);
+                exampleAdapter = new Adapter(articlesArrayList,getContext());
                 recyclerView.setAdapter(exampleAdapter);
                 exampleAdapter.notifyDataSetChanged();
                 initListener();
@@ -131,11 +131,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void initListener(){
-
-        exampleAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
+        exampleAdapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
                 String urlToarticle;
                 String title;
                 String imageUrl;

@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -43,6 +45,8 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
     private Context context;
     private ArrayList<Source> sourceItems;
     private NewsApi newsApi2;
+    private OnItemClickListener onItemClickListener;
+
     int index=0;
     private ArrayList<Bitmap> bitmapArrayList;
 
@@ -58,7 +62,7 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
 
         View view= LayoutInflater.from(context).inflate(R.layout.sources_card_view,parent,false);
         Log.d("TAG", "onCreateViewHolder: "+"inside on createViewHolder");
-        return new ExampleViewHolder(view);
+        return new ExampleViewHolder(view,onItemClickListener);
     }
 
     @Override
@@ -73,11 +77,11 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ExampleViewHolder holders, int position) {
 
+        final ExampleViewHolder holder=holders;
 
         Source currentSource=sourceItems.get(position);
-
         String description=currentSource.getDescription();
         String country=currentSource.getCountry();
         String language=currentSource.getLanguage();
@@ -105,10 +109,12 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
 //            holder.imageViewSource.setImageBitmap(imageFile);
 //
 //        }
-        holder.description.setText(description);
-        holder.country.setText(country);
-        holder.language.setText(language);
-        holder.name.setText(name);
+        holder.sourceDesc.setText(description);
+        holder.sourceLanguage.setText(language);
+        holder.sourceCategory.setText(currentSource.getCategory());
+        holder.sourceCountry.setText(country);
+        holder.sourceName.setText(name);
+
 
     }
 
@@ -123,30 +129,40 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ExampleVie
         return sourceItems.size();
     }
 
-    public class ExampleViewHolder extends RecyclerView.ViewHolder{
-        public TextView name;
-        public TextView description;
-        public TextView country;
-        public TextView language;
-
+    public class ExampleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView sourceName,sourceLanguage,sourceCategory;
+        public TextView sourceDesc;
+        public TextView sourceCountry;
 
         public ImageView imageViewSource;
-        public NavigationView navigationView;
+        OnItemClickListener onItemClickListener;
 
 
-        public ExampleViewHolder(View itemView){
+
+        public ExampleViewHolder(View itemView, OnItemClickListener onItemClickListener){
             super(itemView);
-
-
-            name=itemView.findViewById(R.id.name);
-            imageViewSource=itemView.findViewById(R.id.image_view_source);
-            description=itemView.findViewById(R.id.text_view_description);
-            country=itemView.findViewById(R.id.text_view_country);
-            language=itemView.findViewById(R.id.text_view_language);
-
+            sourceName=itemView.findViewById(R.id.source_name);
+            sourceDesc=itemView.findViewById(R.id.source_desc);
+            sourceCountry=itemView.findViewById(R.id.source_country);
+            sourceLanguage=itemView.findViewById(R.id.source_language);
+            sourceCategory=itemView.findViewById(R.id.source_category);
+            imageViewSource=itemView.findViewById(R.id.source_img);
+            this.onItemClickListener=onItemClickListener;
 
         }
 
+
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(v,getAdapterPosition());
+
+        }
+    }
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener=onItemClickListener;
+    }
+    public interface OnItemClickListener{
+        void onItemClick(View view,int position);
     }
 
 //   private Bitmap getImageFile(String webUrl){
